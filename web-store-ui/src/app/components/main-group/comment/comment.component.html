@@ -1,0 +1,122 @@
+<div class="spinner" [hidden]="!isLoadingComments">
+  <i class="fa fa-spinner fa-spin fa-5x"></i>
+</div>
+<div #comments class="comments clearfix" [ngClass]="{loadingComments:isLoadingComments}">
+  <div class="new-comment">
+    <div class="spinner" *ngIf="deactivate">
+      <i class="fa fa-spinner fa-spin fa-5x"></i>
+    </div>
+    <div class="panel-wrapper">
+      <form class="comment-form" [formGroup]="commentForm" [ngClass]="{disabled: deactivate}" (ngSubmit)="submitCommentClick()">
+        <div class="panel-wrapper-title clearfix">
+          <h3 class="mr-auto" style="margin-bottom: 0px;">Оставить отзыв</h3>
+          <div class="rating-star">
+            <!--<rating [(current)]="commentForm.controls['rating'].value"></rating>-->
+          </div>
+        </div>
+        <div class="panel-wrapper-body">
+          <mat-form-field style="width: 100%;">
+            <mat-label>Ваше имя</mat-label>
+            <i class="material-icons" matPrefix>person</i>
+            <input matInput formControlName="userName">
+            <mat-error *ngIf="commentForm.controls['userName'].invalid && submitAttempt">Поле <strong>не
+              заполнено</strong></mat-error>
+          </mat-form-field>
+          <mat-form-field style="width: 100%;">
+            <i class="material-icons" matPrefix>email</i>
+            <input matInput placeholder="Email" formControlName="email">
+            <mat-error *ngIf="commentForm.controls['email'].invalid && submitAttempt">Некорректный email</mat-error>
+          </mat-form-field>
+          <mat-form-field style="width: 100%;">
+                    <textarea matInput #commentText maxlength="1000" placeholder="Комментарий" formControlName="commentText"
+                              style="height: 250px"></textarea>
+            <mat-hint align="end">{{commentText.value.length}} / 1000</mat-hint>
+            <mat-error *ngIf="commentForm.controls['commentText'].invalid && submitAttempt">Поле <strong>не
+              заполнено</strong></mat-error>
+          </mat-form-field>
+          <div class="block-clickable clearfix">
+            <button mat-raised-button type="submit" class="btn-standart"
+                    [ngClass]="{disabled:
+                            commentForm.controls['userName'].value.trim() === '' ||
+                            commentForm.controls['email'].value.trim() === '' ||
+                            commentForm.controls['commentText'].value.trim() === ''}">
+              <mat-icon>comment</mat-icon>
+              Отправить
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="comment{{c.id}}"
+       class="media p-2"
+       *ngFor="let c of _product?.commentInfo.commentList; let commentIndex = index"
+       [ngClass]="{media_flash: navigateToCommentId == c.id}" >
+    <div class="media-head">
+      <img src="https://www.w3schools.com/bootstrap4/img_avatar3.png" class="mr-3 mt-3 rounded-circle" style="width:48px;">
+      <span note-color [note]="c.note" class="badge badge-light">{{c.note | noteStyle}}</span>
+    </div>
+    <div class="media-body">
+      <div class="header clearfix">
+        <h4 style="margin-bottom: 0px">
+          <span class="font-weight-bold">{{c.author}}</span>
+          <i><small>{{c.date}}</small></i>
+          <rating style="font-size: 14px" *ngIf="c.rating_star > 0" [current]="c.rating_star" [readonly]="true"></rating>
+          <div class="action">
+            <button like [data]="_product" [comment]="c" mat-icon-button matTooltip="Нравится">
+              <i class="material-icons">thumb_up</i>
+            </button>
+            <button dislike [data]="_product" [comment]="c" mat-icon-button matTooltip="Не нравится">
+              <i class="material-icons">thumb_down</i>
+            </button>
+          </div>
+        </h4>
+      </div>
+      <span class="media-text"><p>{{c.text}}</p></span>
+      <div class="dropdown">
+        <button mat-button data-toggle="dropdown">Ответить</button>
+        <div #answerMenu class="dropdown-menu panel-wrapper" style="width: 600px">
+          <div class="spinner" *ngIf="deactivateFormAnswer">
+            <i class="fa fa-spinner fa-spin fa-5x"></i>
+          </div>
+          <form class="comment-form" [formGroup]="answerForm" [ngClass]="{disabled: deactivateFormAnswer}" (ngSubmit)="submitAnswerClick(commentIndex)">
+            <div class="panel-wrapper-body">
+              <mat-form-field style="width: 100%;">
+                <mat-label>Ваше имя</mat-label>
+                <input matInput formControlName="userName">
+                <mat-error *ngIf="answerForm.controls['userName'].invalid && submitAnswer">Поле <strong>не заполнено</strong></mat-error>
+              </mat-form-field>
+              <mat-form-field style="width: 100%;">
+                <textarea matInput #answerText maxlength="1000" placeholder="Комментарий" formControlName="answerText"></textarea>
+                <mat-hint align="end">{{answerText.value.length}} / 1000</mat-hint>
+                <mat-error *ngIf="answerForm.controls['answerText'].invalid && submitAnswer">Поле <strong>не
+                  заполнено</strong></mat-error>
+              </mat-form-field>
+              <div class="block-clickable clearfix">
+                <button mat-raised-button type="submit" class="btn-standart"
+                        [ngClass]="{disabled:
+                            answerForm.controls['userName'].value.trim() === '' ||
+                            answerForm.controls['answerText'].value.trim() === ''}">
+                  Ответить
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div id="comment{{ch.id}}" class="media" *ngFor="let ch of c.children" [ngClass]="{media_flash: navigateToCommentId == ch.id}">
+        <img src="https://www.w3schools.com/bootstrap4/img_avatar2.png" class="mr-2 mt-1 rounded-circle" style="width:30px;">
+        <div class="media-body">
+          <h4 style="margin-bottom: 0px">
+            <span class="font-weight-bold">{{ch.author}}</span>
+            <i><small>{{ch.date}}</small></i>
+          </h4>
+          <span><p>{{ch.text}}</p></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="_product?.commentInfo.count > limit">
+    <app-pagination [offset]="offset" [limit]="limit" [size]="_product.commentInfo.count" (changePage)="onChangePage($event)"></app-pagination>
+  </div>
+</div>

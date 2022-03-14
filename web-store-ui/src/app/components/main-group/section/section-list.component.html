@@ -1,0 +1,60 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="group col-sm-3 col-md-3 col-lg-3 col-xl-2">
+      <app-filter-list (filterClick)="changeSort('')"></app-filter-list>
+    </div>
+    <div class="group col-sm-6 col-md-6 col-lg-6 col-xl-8" style="padding-right:15px;">
+      <div class="row">
+        <div class="col">
+          <div class="row">
+            <div class="col">
+              <h6 class="f-title">{{_catalogName}}</h6>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+              <mat-chip-list class="chip-list">
+                <mat-chip *ngFor="let item of filterListOptions | async" (removed)="removeFilterItem(item.id)" [removable]="true">
+                  {{item?.name}}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+              </mat-chip-list>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3 block-sort-view">
+              <div class="btn-groups float-right">
+                <div #sortSelect class="sortSelect">
+                  <mat-form-field>
+                    <mat-select [(value)]="selectedMatOption" class="select" placeholder="Сортировка" (selectionChange)="changeSort($event.value)">
+                      <mat-option value="price_up"><i class="fa fa-long-arrow-up fa-select"></i>возрастание цены</mat-option>
+                      <mat-option value="price_down"><i class="fa fa-long-arrow-down fa-select"></i>убывание цены</mat-option>
+                      <mat-option value="rating"><i class="fa fa-thumbs-o-up fa-select"></i>по рейтингу</mat-option>
+                      <mat-option value="popular"><i class="fa fa-newspaper-o fa-select"></i>популярные</mat-option>
+                      <mat-option value="auction"><i class="fa fa-bullhorn fa-select"></i>акционные</mat-option>
+                      <mat-option value="novelty"><i class="fa fa-truck fa-select"></i>новинки</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-button-toggle-group>
+                    <mat-button-toggle style="color: #4267b2" value="list" [ngClass]="{btnActive:list_view, disabled: list_view}" (click)="toogle_view()">
+                      <mat-icon>view_list</mat-icon>
+                    </mat-button-toggle>
+                    <mat-button-toggle style="color: #4267b2" value="module" [ngClass]="{btnActive:tile_list, disabled: tile_list}" (click)="toogle_view()">
+                      <mat-icon>view_module</mat-icon>
+                    </mat-button-toggle>
+                  </mat-button-toggle-group>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col products-body">
+          <app-product-list [list_style]="list_view" (progress)="onChangeProgress($event)"></app-product-list>
+        </div>
+      </div>
+    </div>
+    <div class="group col-sm-3 col-md-3 col-lg-3 col-xl-2">
+
+    </div>
+  </div>
+</div>

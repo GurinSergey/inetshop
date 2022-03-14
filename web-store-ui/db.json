@@ -1,0 +1,61 @@
+{
+  "category": [
+    {
+      "id": 1,
+      "parent_id": 1,
+      "title": "Laptops",
+      "description": "Описание ноутбуки",
+      "enabled": false,
+      "groups": [
+        {
+          "id": 2,
+          "sort": 300,
+          "name": "AMD2323232323232",
+          "attributes": [
+            {
+              "name": "COR",
+              "sort": "0"
+            },
+            {
+              "name": "010",
+              "sort": 0
+            },
+            {
+              "name": "00532222222222222222222222222222222222222",
+              "sort": 0
+            }
+          ]
+        },
+        {
+          "id": 0,
+          "sort": 0,
+          "name": "000",
+          "attributes": [
+            {
+              "name": "0101",
+              "sort": 0
+            },
+            {
+              "name": "1010",
+              "sort": 0
+            },
+            {
+              "name": "1010",
+              "sort": 0
+            }
+          ]
+        }
+      ],
+      "url": "http://localhist/category/laptops",
+      "state": 0
+    },
+    {
+      "id": 2,
+      "parent_id": 0,
+      "title": "00",
+      "description": "101010",
+      "enabled": false,
+      "groups": []
+    }
+  ]
+}

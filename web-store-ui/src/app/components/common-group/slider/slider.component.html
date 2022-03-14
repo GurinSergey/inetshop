@@ -1,0 +1,23 @@
+<script src="slider.component.ts"></script>
+<div class="f-title">{{title}}</div>
+<div class="container">
+  <div class="spinner" [hidden]="!isLoading">
+    <i class="fa fa-spinner fa-spin fa-5x"></i>
+  </div>
+  <div class="container text-center my-3">
+    <div class="row mx-auto my-auto">
+      <div id="bestSellingCarousel" class="carousel slide w-100" data-ride="carousel" [attr.data-interval]="interval"
+           data-pause="hover">
+        <div class="carousel-inner w-100" role="listbox">
+          <div class="carousel-item" *ngFor="let item of _items; let itemIndex = index; let last = last;"
+               [ngClass]="{active: itemIndex == 0}"
+               [method]="cook" [clause]="last">
+            <!--<a [routerLink]="['/main-page/product', item?.latIdent]">-->
+            <img class="d-block col-3 img-fluid" src={{item.url_image}}>
+            <!--</a>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,71 @@
+.catalog-list .row > div {
+  padding: 0px;
+}
+
+.catalog-header {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.catalog-list {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 25px;
+  border-top: 1px solid #eaeaea;
+  border-left: 1px solid #eaeaea;
+}
+
+.catalog-item {
+  border-bottom: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea;
+  position: relative;
+  padding: 5px;
+  box-shadow: 0 0.3px 0 -0.3px rgba(0, 0, 0, .2),
+  0 0.3px 0.3px 0 rgba(0, 0, 0, .14),
+  0.3px 0.3px 0.3px 0 rgba(0, 0, 0, .12);
+  font-weight: bold;
+  margin: 2px;
+  height: 260px;
+}
+
+.catalog-item:hover .p-inner {
+  position: absolute;
+  z-index: 10;
+  background-color: #fff;
+  border: 1px solid #a8cbeb;
+  left: -1px;
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  box-shadow: 0 0 13px 0 rgba(0, 0, 0, .4);
+  cursor: pointer;
+  padding: 5px;
+}
+
+.catalog-item img {
+  height: 200px;
+  width: 100%;
+}
+
+.catalog-title {
+  margin-top: 10px;
+  color: #575757;
+  font-weight: 600;
+}
+
+.another-info {
+  border-left: 1px solid #eaeaea;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 25px;
+}
+
+.adds-content {
+  margin: 0 15px 15px 15px;
+}
+
+.adds-content,
+.adds-content img {
+  height: 400px;
+  width: 100%;
+}

@@ -1,0 +1,147 @@
+.media{
+  padding-top: 5px;
+}
+
+.media-body{
+  position: relative;
+  border-bottom: 1px solid #D7DFFF;
+}
+
+.media-body .media-body{
+  border: none;
+}
+
+.media-body .media{
+  border-top: 1px solid #D7DFFF;
+}
+
+.media-body .material-icons{
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.media-body .material-icons:hover{
+  opacity: 1;
+}
+
+.media-body .action{
+  float: right;
+}
+
+/deep/ .media-body .action .mat-icon-button{
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+}
+
+.comments{
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+#comments > div.spinner .fa-spin{
+  position: fixed;
+}
+
+.loadingComments{
+  opacity: 0.6;
+}
+
+.media-body{
+  width: 50px;
+}
+
+.new-comment{
+  width: 400px;
+  margin-left: 5px;
+  font-size: 0.9rem;
+  position: relative;
+}
+
+.new-comment mat-form-field,
+.media-body .dropdown-menu mat-form-field{
+  margin-bottom: 10px;
+}
+
+.new-comment,
+.new-comment button,
+.media-body .dropdown-menu button{
+  float: right;
+}
+
+.new-comment mat-form-field .material-icons{
+  margin-right: 0.5rem;
+  padding-right: 0.2rem;
+  border-right: 1px solid #c7cfef;
+  color: #575757;
+}
+
+.comment-form textarea{
+  resize: none;
+  height: 100px;
+}
+
+.new-comment textarea {
+  height: 180px;
+}
+
+::ng-deep .media_flash{
+  animation: glowing 1500ms infinite;
+  animation-iteration-count: 3;
+}
+
+
+@keyframes glowing {
+  0% { box-shadow: 0 0 0px rgba(253, 216, 20, 0.59); background-color: #fdd81410}
+  50% { box-shadow: 0 0 30px #FDD814; background-color: #fdd81430}
+  100% { box-shadow: 0 0 0px rgba(253, 216, 20, 0.59); background-color: #fdd81400}
+}
+
+.media{
+  margin-right: 10px;
+}
+
+.media .media{
+  margin-right: 0px;
+}
+
+.media-body .dropdown .dropdown-menu,
+.media-body .dropdown .panel-wrapper-body{
+  padding-top: 5px;
+  font-size: 0.8rem;
+}
+
+.media-body h4 > *{
+  margin-left: 5px;
+  align-items: center;
+}
+
+.media-body rating{
+  font-size: .7rem;
+  margin-top: 0px;
+}
+
+.rating-star{
+  font-size: 22px;
+}
+
+.rating-star > *{
+  align-items: center;
+  vertical-align: middle;
+}
+
+.media-head, .rating-star{
+  position: relative;
+}
+
+.media-head .badge{
+  position: absolute;
+  top: 1px;
+  right: 8px;
+  font-size: .75rem;
+  background: transparent;
+}
+
+.header h4 > *{
+  vertical-align: middle;
+}

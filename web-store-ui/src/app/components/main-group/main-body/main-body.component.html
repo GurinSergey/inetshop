@@ -1,0 +1,45 @@
+<router-outlet></router-outlet>
+<div class="row">
+  <div class="col-2">
+
+  </div>
+  <div class="col-8">
+    <div class="row">
+      <div class="tops-content">
+        <app-slider [title]="bestSellingProducts" [items]="sliderList"></app-slider>
+      </div>
+    </div>
+
+    <div class="row">
+      <app-scroll [title]="prevViewedItems">
+        <div class="product-item-watch" *ngFor="let p of itemsWatch">
+          <div class="p-header">
+            <a [routerLink]="['product', p?.baseInfo.latIdent]">
+              <img class="img-fluid" src={{p?.baseInfo.url_image}}>
+            </a>
+          </div>
+          <div class="p-body">
+            <a [routerLink]="['product', p?.baseInfo.latIdent]">
+              <h6 class="head">{{p?.baseInfo.title}} {{p?.baseInfo.code}}</h6>
+            </a>
+            <div class="p-info">
+              <div class="prices-info clearfix">
+                <span class="h6 p-price p-old-price" *ngIf="p?.priceInfo.new_future_price">{{p?.priceInfo.new_future_price | currencyLocal}}</span>
+                <span forNewPrice class="h6 p-price" [value]="p?.priceInfo.new_future_price">{{p?.priceInfo.current_price | currencyLocal}}</span>
+                <span class="p-price p-sale-price" *ngIf="p?.priceInfo.exists_sale">{{p?.priceInfo.sale_price | currencyLocal | sale}}</span>
+              </div>
+              <div class="rating-info clearfix">
+              <span>
+                <rating [current]="p?.ratingInfo.ratingStar" [readonly]="true"></rating>
+              </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </app-scroll>
+    </div>
+  </div>
+  <div class="col-2">
+
+  </div>
+</div>

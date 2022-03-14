@@ -1,0 +1,64 @@
+<!--
+HOW it WORKS!!!!!!!!!!!!!
+
+URL LINK in child to parent popup example
+<a [routerLink]="['/main-page/',{ outlets: { popup: 'compose'}}]">Check popup</a>
+or whith parameters
+<a [routerLink]="['/main-page/',{ outlets: {popup: ['compose',{message:'WTF',details:'What what what????'}]}}]">Check popup</a>
+
+
+PROGRAMMER NAVIGATE child to PARENT ----
+ private getPopup(text: string) {
+    this.router.navigate(['/main-page/',{
+      outlets: {
+        popup: ['compose', {
+          details: 'DIMON WAS HERE !!!!DETAILS PUT HERE...',
+          message: 'DIMON WAS HERE !!!!  MESSAGE PUT HERE....'
+        }]
+      }
+    }]);
+
+
+    PROGRAMMER NAVIGET PARENT TO PARENT
+
+     private getPopup(text: string) {
+    this.router.navigate([{
+      outlets: {
+        popup: ['compose', {
+          details: 'DIMON WAS HERE !!!!DETAILS PUT HERE...',
+          message: 'DIMON WAS HERE !!!!  MESSAGE PUT HERE....'
+        }]
+      }
+    }], {relativeTo: this.activatedRoute });
+
+
+    PROGRAMMER NAVIGaTe CHILD  TO CHILD REDIRECT
+      this.router.navigate([{
+        outlets: {
+          popup: ['compose', {
+            details: title,
+            message: text
+          }],
+          primary:['contact']
+        }
+      }],  {relativeTo: this.activatedRoute.parent}/*,{skipLocationChange:true}*/);
+  }
+
+
+childChildto parent parent
+this.popupService.getPopupAndRedirect(this.router,this.route.parent,'main-page','userprofile','пароль изменен','',4);
+
+-->
+
+<div class="f-alert alert" [ngClass]="popupType">
+  <span class="closebtn" (click)="cancel()">&times;</span>
+  <i *ngIf="popupType==='alert-success'" class="fa fa-check"></i>
+  <i *ngIf="popupType==='alert-info'" class="fa fa-info"></i>
+  <i *ngIf="popupType==='alert-danger'" class="fa fa-exclamation-circle"></i>
+  <strong>{{title}}</strong>
+  <br>
+  <span [innerHTML]="message"></span>
+</div>
+
+
+

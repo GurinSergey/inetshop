@@ -1,0 +1,279 @@
+<div class="row">
+  <ul class="col breadcrumb">
+    <li>
+      <a href="#">Home</a>
+    </li>
+    <li>
+      <a href="#">Pictures</a>
+    </li>
+    <li>
+      <a href="#">Summer 15</a>
+    </li>
+    <li>Italy</li>
+  </ul>
+</div>
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-3 col-xl-2">
+    there will be something later
+  </div>
+  <div class="col-sm-12 col-md-12 col-lg-9 col-xl-8 productBase">
+    <div class="row">
+      <div class="col">
+        <h2 class="h2">{{product?.baseInfo.title}} {{product?.baseInfo.code}}</h2>
+      </div>
+    </div>
+    <mat-tab-group class="tab-group" [selectedIndex]="tabIndex" (selectedIndexChange)="selectTabIndex($event)">
+      <mat-tab label="Все о товаре">
+        <div class="row content">
+          <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+            <div #slides>
+              <div class="inner">
+                <div class="mySlides slide-fade cursor"
+                     *ngFor="let photo of product?.photosInfo; let i = index; let first = first"
+                     [ngClass]="{flex:first}">
+                  <div class="number-text">{{i + 1}} / {{product?.photosInfo.length}}</div>
+                  <img alt="No Images" src="{{photo.path}}" (click)="openPhotosDialog()">
+                </div>
+                <ng-template [ngIf]="product?.photosInfo.length > 1">
+                  <i class="prev fa fa-angle-left fa-3x" (click)="navigateSlide(-1)"></i>
+                  <i class="next fa fa-angle-right fa-3x" (click)="navigateSlide(1)"></i>
+                </ng-template>
+              </div>
+              <app-scroll #scrollPhotos>
+                <div class="photo-list"
+                     *ngFor="let photo of product?.photosInfo; let i = index; let first = first">
+                  <img class="demo cursor" src={{photo.path}} (click)="currentSlide(i + 1)" [ngClass]="{active:first}">
+                </div>
+              </app-scroll>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+            <div class="panel-wrapper">
+              <div class="panel-wrapper-body">
+                <div class="row">
+                  <div class="col-9 details-price">
+                    <div class="row">
+                      <div class="col">
+                        <span class="p-price p-old-price" *ngIf="product?.priceInfo.new_future_price">{{product?.priceInfo.new_future_price | currencyLocal}}</span>
+                        <ul class="nav">
+                          <li class="nav-item">
+                            <span class="h3 p-price font-weight-bold">{{product?.baseInfo.price | currencyLocal}}</span>
+                          </li>
+                          <li class="nav-item">
+                          <span class="nav-link block-clickable" style="height: 45px;">
+                            <button mat-raised-button class="btn-standart" (click)="addToBasket(product?.baseInfo)"
+                                    [hidden]="product?.baseInfo.isInBasketBox">
+                              <i class="material-icons md-34">shopping_cart</i>
+                              <span class="h4">Купить</span>
+                            </button>
+                            <span class="btn-in-cart" data-toggle="modal" data-target="#basketModals"
+                                  (click)="basketInit()" [hidden]="!product?.baseInfo.isInBasketBox">
+                              <i class="material-icons md-40" style="color: #2eb133;">add_shopping_cart</i>
+                              <span style="font-size: 18px;">Товар в корзине</span>
+                            </span>
+                          </span>
+                          </li>
+                        </ul>
+                        <span *ngIf="product?.priceInfo.exists_sale" class="h6 p-price p-sale-price">
+                          <strong>{{product?.priceInfo.sale_price | currencyLocal | sale}}</strong>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="rating">
+                          <div class="row">
+                            <div class="col">
+                              <button mat-raised-button *ngIf="!(product?.commentInfo.totalCount > 0)" (click)="selectTabIndex(2)" style="font-size: .9rem; padding: 0rem .5rem;">
+                                <mat-icon>insert_comment</mat-icon>
+                                Оставить отзыв
+                              </button>
+                              <a *ngIf="product?.commentInfo.totalCount > 0" href="javascript:void(0)" (click)="selectTabIndex(2)">
+                                {{product?.commentInfo.totalCount | comment}}
+                              </a>
+                              <div class="bar-container" [hidden]="!(product?.ratingInfo.positiveCommentNotes / product?.ratingInfo.allCommentNotes > 0)">
+                                <div class="bar-green" [style.width.%]="product?.ratingInfo.positiveCommentNotes / product?.ratingInfo.allCommentNotes * 100 || 0"></div>
+                              </div>
+                              <div class="bar-container" [hidden]="!(product?.ratingInfo.negativeCommentNotes / product?.ratingInfo.allCommentNotes > 0)">
+                                <div class="bar-red" [style.width.%]="product?.ratingInfo.negativeCommentNotes / product?.ratingInfo.allCommentNotes * 100 || 0"></div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col" style="font-size:22px; margin-top:5px;">
+                              <!--<rating [current]="product.ratingInfo.ratingStar" [readonly]="true"></rating>-->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col social">
+                        <button mat-icon-button style="color: #4c75a3">
+                          <i class="fa fa-vk fa-2x"></i>
+                        </button>
+                        <button mat-icon-button style="color: #4267b2">
+                          <i class="fa fa-facebook fa-2x"></i>
+                        </button>
+                        <button mat-icon-button style="color: #4AB3F4">
+                          <i class="fa fa-twitter fa-2x"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <ul class="nav flex-column">
+                      <li class="nav-item">
+                        <span class="nav-link">
+                          <button mat-icon-button class="float-right">
+                            <i class="fa fa-eye fa-2x"></i>
+                          </button>
+                        </span>
+                      </li>
+                      <li class="nav-item">
+                        <span class="nav-link">
+                          <button mat-icon-button class="float-right" (click)="addToCompare(product)"[disabled]="product?.baseInfo.isInCompareBox">
+                            <i class="fa fa-balance-scale fa-2x"></i>
+                          </button>
+                          <i class="fa fa-check bange-icon" [ngClass]="{unVisible:!product?.baseInfo.isInCompareBox}"></i>
+                        </span>
+                      </li>
+                      <li class="nav-item">
+                        <span class="nav-link">
+                          <button mat-icon-button class="float-right">
+                            <i class="fa fa-heart fa-2x"></i>
+                          </button>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel-wrapper">
+              <div class="panel-wrapper-title">
+                <mat-icon>local_shipping</mat-icon>
+                <h4 style="margin-bottom: 0px;">&nbsp;
+                  <a href="">Доставка</a>
+                </h4>
+              </div>
+              <div class="panel-wrapper-body">
+                <div class="row">
+                  <div class="col">
+                    <table class="table">
+                      <tbody>
+                      <tr>
+                        <td><span class="font-weight-bold">Самовывоз</span> из наших магазинов − бесплатно</td>
+                      </tr>
+                      <tr>
+                        <td><span class="font-weight-bold">Самовывоз</span> из Новой Почты − 50 грн</td>
+                      </tr>
+                      <tr>
+                        <td><span class="font-weight-bold">Курьер</span> Курьером службы доставки по вашему адресу − 45 грн
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><span class="font-weight-bold">Оплата</span> Наличными, Visa/MasterCard
+                          &nbsp;
+                          <a href="">Подробнее</a>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-8 col-md-6 col-lg-6 col-xl-6">
+            <h2>Характеристики:</h2>
+            <span *ngIf="product?.producerInfo" style="margin-bottom: 15px">
+              <strong class="font-weight-bold">Производитель: </strong>
+              <span>{{product?.producerInfo.name}} </span>
+              <img style="width: 25px" matTooltip="{{product?.producerInfo.country}}" src="{{product?.producerInfo.path_flag}}">
+            </span>
+            <table class="table">
+              <tbody>
+              <tr *ngFor="let field of product?.fieldInfo.list | slice:0:5">
+                <td class="font-weight-bold">{{field.name}}</td>
+                <td>{{field.value}}</td>
+              </tr>
+              </tbody>
+            </table>
+            <h4>
+              <a href="javascript:void(0)" (click)="selectTabIndex(1)">
+                Смотреть все характеристики
+                <mat-icon>chevron_right</mat-icon>
+              </a>
+            </h4>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Характеристики">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+             <span *ngIf="product?.producerInfo" style="margin-bottom: 15px">
+              <strong class="font-weight-bold">Производитель: </strong>
+              <span>{{product?.producerInfo.name}} </span>
+              <img style="width: 25px" matTooltip="{{product?.producerInfo.country}}" src="{{product?.producerInfo.path_flag}}">
+            </span>
+            <table class="table table-striped">
+              <tbody>
+              <tr *ngFor="let field of product?.fieldInfo.list ">
+                <td class="font-weight-bold">{{field.name}}</td>
+                <td>{{field.value}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab #comments label="Отзывы ({{product?.commentInfo.totalCount}})">
+        <app-comment
+          [_product]="product"
+          [isLoadingComments]="isLoadingComments"
+          (changePage)="onChangePage($event)"></app-comment>
+      </mat-tab>
+    </mat-tab-group>
+    <div class="row">
+      <div class="col">
+        <app-scroll [title]="prevViewedItems">
+          <div class="product-item-watch" *ngFor="let p of itemsWatch">
+            <div class="p-header">
+              <a [routerLink]="['../', p?.baseInfo.id]">
+                <img alt="image..." class="img-fluid" src={{p?.baseInfo.url_image}}>
+              </a>
+            </div>
+            <div class="p-body">
+              <a [routerLink]="['../', p?.baseInfo.id]" class="head" >
+                <h6>{{p?.baseInfo.code}} {{p?.baseInfo.title}}</h6>
+              </a>
+              <div class="p-info">
+                <div class="prices-info clearfix">
+                  <span class="h6 p-price p-old-price" *ngIf="p?.priceInfo.new_future_price">{{p?.priceInfo.new_future_price | currencyLocal}}</span>
+                  <span forNewPrice class="h6 p-price" [value]="p?.priceInfo.new_future_price">{{p?.priceInfo.current_price | currencyLocal}}</span>
+                  <span class="p-price p-sale-price" *ngIf="p?.priceInfo.exists_sale">{{p?.priceInfo.sale_price | currencyLocal | sale}}</span>
+                </div>
+                <div class="rating-info clearfix">
+                    <span>
+                      <!--<rating [(ngModel)]="p?.ratingInfo.ratingStar"-->
+                              <!--fullIcon="★" emptyIcon="☆"-->
+                              <!--[max]="5"-->
+                              <!--[readonly]="true"-->
+                              <!--[titles]="star_titles">-->
+                      <!--</rating>-->
+                    </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </app-scroll>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

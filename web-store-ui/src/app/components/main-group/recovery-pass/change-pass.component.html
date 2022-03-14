@@ -1,0 +1,44 @@
+<mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Укажите текущий пароль</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Текущий пароль" type="password" formControlName="password" required>
+      </mat-form-field>
+      <span style="color:red" *ngIf="firstFormGroup.controls['password'].hasError('someOtherLogin')">
+        {{userErrorPass}}
+      </span>
+      <div>
+        <button class="btn  btn-gray"  mat-button (click)="checkPass(stepper)" [disabled]="firstFormGroup.invalid">Следующий шаг</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Укажите новый пароль</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Новый пароль" type="password" formControlName="newPassword" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Подтвердите пароль" type="password" formControlName="confirmPassword" required>
+      </mat-form-field>
+      <span style="color:red" *ngIf="secondFormGroup.hasError('mismatchedPasswords') && secondFormGroup.controls['confirmPassword'].touched">
+        {{userErrorMatchingPass}}
+      </span>
+      <div>
+        <!--<button class="btn  btn-gray" mat-button  matStepperPrevious>Предыдущий шаг</button>-->
+        <button class="btn  btn-gray"  mat-button (click)="nextStep(stepper)" [disabled]="secondFormGroup.invalid">Следующий шаг</button>
+      </div>
+      <input type="hidden" formControlName="guid" value="{{sendForm.guid}}"/>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <div>Почти готово!</div> Осталось подтвердить изменения пароля, нажав на кнопку подтвердить
+    <button class="btn  btn-gray"  mat-button  (click)="changePass(stepper)">Подтвердить изменения</button>
+    <div>
+      <button class="btn  btn-gray"  mat-button matStepperPrevious>Назад</button>
+    </div>
+  </mat-step>
+
+</mat-horizontal-stepper>

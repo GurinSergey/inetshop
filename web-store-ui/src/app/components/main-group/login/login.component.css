@@ -1,0 +1,30 @@
+.sidebar-menu{
+  width: 325px;
+  margin-bottom: 0px;
+}
+
+input.ng-touched.ng-invalid {
+  border: 1px solid #ef6d6d;
+}
+
+.nav li > a{
+  color: #575757;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.error span {
+  font-size: 12px;
+}
+
+
+
+
+
+
+
+
+
+

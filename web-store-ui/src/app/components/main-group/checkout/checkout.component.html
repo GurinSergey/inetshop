@@ -1,0 +1,186 @@
+<h2 *ngIf="items?.productList.length === 0; else checkOutBlock" class="text-center"><i class="fa fa-shopping-cart"
+                                                                                       style="font-size:24px"></i> Ваша
+  корзина
+  пустая
+</h2>
+<ng-template #checkOutBlock>
+  <div class="row form-group">
+    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+      <div class="container_usr">
+        <form [formGroup]="checkoutForm" novalidate (ngSubmit)="submit()">
+          <div class="row">
+            <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+              <h3>Контактные данные</h3>
+
+              <div class="form-group-usr">
+                <div *ngIf="checkoutForm.controls['userName'].invalid && checkoutForm.controls['userName'].touched"
+                     class="error">
+                  <span class="right">{{nameError}}</span>
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                  <input class="form-control" name="name" formControlName="userName"
+                         placeholder="Фамилия, имя и отчество"/>
+                </div>
+              </div>
+
+              <div class="form-group-usr">
+                <div *ngIf="checkoutForm.controls['userPhone'].invalid && checkoutForm.controls['userPhone'].touched"
+                     class="error">
+                  <span class="right">{{phoneError}}</span>
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                  <input class="form-control" name="phone" formControlName="userPhone"
+                         [textMask]="{mask: phoneMask}" placeholder="Контактный телефон"/>
+                </div>
+              </div>
+
+              <div class="form-group-usr">
+                <div *ngIf="checkoutForm.controls['userEmail'].invalid && checkoutForm.controls['userEmail'].touched"
+                     class="error">
+                  <span class="right">{{emailError}}</span>
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                  <input class="form-control" name="email" formControlName="userEmail" placeholder="Электронная почта"
+                         [attr.disabled]="checkoutForm.value.isUserAuth?'':null"/>
+                </div>
+              </div>
+
+              <h3>Выбор способа доставки</h3>
+              <div class="radio">
+                <label><input type="radio" name="delivery_group" [(ngModel)]="deliveryKind"
+                              [ngModelOptions]="{standalone: true}" [value]="0" [checked]="deliveryKind==0"
+                              (change)="onSelectionChange()"> Самовывоз из нашего склада</label>
+              </div>
+              <div class="delivery" *ngIf="deliveryKind==0">
+                <div class="form-group-usr">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-address-card"></i></span>
+                    <input class="form-control" value="{{ourAddress}}" disabled/>
+                  </div>
+                </div>
+              </div>
+
+              <div class="radio">
+                <label><input type="radio" name="delivery_group" [(ngModel)]="deliveryKind"
+                              [ngModelOptions]="{standalone: true}" [value]="1" [checked]="deliveryKind==1"
+                              (change)="onSelectionChange()"> Самовывоз из Новой Почты</label>
+              </div>
+              <div class="delivery" *ngIf="deliveryKind==1">
+                <div class="form-group-usr">
+                  <div
+                    *ngIf="checkoutForm.controls['deliveryCity'].invalid && checkoutForm.controls['deliveryCity'].touched"
+                    class="error">
+                    <span class="right">{{cityError}}</span>
+                  </div>
+                  <div class="row" style="height: 3px">
+                      <span class="col">
+                        <mat-progress-bar *ngIf="isLoadingCities" [mode]="'indeterminate'"></mat-progress-bar>
+                      </span>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                    <select class="form-control" name="city" formControlName="deliveryCity"
+                            [attr.disabled]="isLoadingCities ? true : null"
+                            (change)="getBranchNovaByRef($event.target.value)">
+                      <option [attr.selected]="true" [attr.disabled]="true">Укажите свой город</option>
+                      <option *ngFor="let city of cityList" [value]="city.cityRef">
+                        {{city.cityDescription}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group-usr">
+                  <div
+                    *ngIf="checkoutForm.controls['deliveryAddress'].invalid && checkoutForm.controls['deliveryAddress'].touched"
+                    class="error">
+                    <span class="right">{{addressError}}</span>
+                  </div>
+                  <div class="row" style="height: 3px">
+                      <span class="col">
+                        <mat-progress-bar *ngIf="isLoadingBranch" [mode]="'indeterminate'"></mat-progress-bar>
+                      </span>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-address-card"></i></span>
+                    <select class="form-control" name="address" formControlName="deliveryAddress"
+                            [attr.disabled]="branchNova.length > 0 && !isLoadingBranch ? null : true">
+                      <option [attr.selected]="true" [attr.disabled]="true">Укажите адрес отделения</option>
+                      <option *ngFor="let branch of branchNova" [value]="branch.DescriptionRu">
+                        {{branch.DescriptionRu}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+              <h3>Оплата</h3>
+              <div class="radio">
+                <label><input type="radio" name="payment_group" [(ngModel)]="paymentMethod"
+                              [ngModelOptions]="{standalone: true}" [value]="0" [checked]="paymentMethod==0" checked>Наличными</label>
+              </div>
+              <div class="radio">
+                <label><input type="radio" name="payment_group" [(ngModel)]="paymentMethod"
+                              [ngModelOptions]="{standalone: true}" [value]="1" [checked]="paymentMethod==1">Безналичными</label>
+              </div>
+              <div class="radio">
+                <label><input type="radio" name="payment_group" [(ngModel)]="paymentMethod"
+                              [ngModelOptions]="{standalone: true}" [value]="2" [checked]="paymentMethod==2" disabled>Кредит</label>
+              </div>
+              <div class="radio">
+                <label><input type="radio" name="payment_group" [(ngModel)]="paymentMethod"
+                              [ngModelOptions]="{standalone: true}" [value]="3" [checked]="paymentMethod==3" disabled>Visa/MasterCard</label>
+              </div>
+              <div class="radio">
+                <label><input type="radio" name="payment_group" [(ngModel)]="paymentMethod"
+                              [ngModelOptions]="{standalone: true}" [value]="4" [checked]="paymentMethod==4" disabled>Приват24</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" [checked]="!callBack" (change)="callBack = !callBack"> Не перезванивайте мне для
+              подтверждения заказа
+            </label>
+          </div>
+
+          <div class="note">
+            <label>Комментарий к заказу:</label>
+            <textarea class="form-control" name="orderNode" formControlName="orderNote"></textarea>
+          </div>
+          <br>
+          <span class="block-clickable">
+             <button class="btn btn-standart btn-block" [disabled]="checkoutForm.invalid"> Заказ подтверждаю</button>
+          </span>
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+      <div class="container_usr">
+        <h4>К оплате
+          <span class="price" style="color:black">
+          <i class="fa fa-shopping-cart"></i>
+          <b>{{totalCnt}}</b>
+        </span>
+        </h4>
+        <p *ngFor="let item of items?.productList">
+          <a [routerLink]="['/main-page/product', item.id]" target="_blank">
+            <img class="img-fluid product-img" src="{{item.url_image}}">
+          </a>
+          &thinsp;
+          <a [routerLink]="['/main-page/product', item.id]" target="_blank">
+            {{item.title}}
+          </a>
+          <span class="price">{{item.cnt}} x {{item.price | currencyLocal}}</span>
+        </p>
+        <p>Всего: <span class="price" style="color:black"><b>{{totalSum | currencyLocal}}</b></span></p>
+      </div>
+    </div>
+  </div>
+</ng-template>

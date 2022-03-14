@@ -1,0 +1,7 @@
+<span *ngFor="let i of _arr">
+  <span [ngClass]="{'readonly':_readonly}" title="{{_titles[i - 1]}}" (click)="setValue(i)">
+    <i class="material-icons full" *ngIf="i <= _currentVal">star</i>
+    <i class="material-icons" *ngIf="i > _currentVal">star_border</i>
+  </span>
+</span>
+

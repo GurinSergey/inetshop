@@ -1,0 +1,52 @@
+<mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Укажите текущий пароль</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Текущий пароль" type="password" formControlName="password" required>
+      </mat-form-field>
+      <span style="color:red" *ngIf="firstFormGroup.controls['password'].hasError('someOtherLogin')">
+        {{userErrorPass}}
+      </span>
+      <div>
+        <button class="btn  btn-gray" mat-button (click)="checkPass(stepper)" [disabled]="firstFormGroup.invalid">
+          Следующий шаг
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Укажите новую почту</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="новый email" type="email" formControlName="newEmail" required>
+      </mat-form-field>
+      <div>
+        <!--<button class="btn  btn-gray" mat-button  matStepperPrevious>Предыдущий шаг</button>-->
+        <button class="btn  btn-gray" mat-button (click)="checkEmail(stepper)" [disabled]="secondFormGroup.invalid">
+          Следующий шаг
+        </button>
+      </div>
+      <input type="hidden" formControlName="guid" value="{{sendForm.guid}}"/>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="lastFormGroup">
+    <form [formGroup]="lastFormGroup">
+      <ng-template matStepLabel>Завершение</ng-template>
+      <div>Почти готово!</div>
+      Осталось ввести код подтверждения , отправленный вам на почту и нажать кнопку подтверждения
+      <div>
+        <mat-form-field style="width:400px !important;" class="example-full-width">
+          <input matInput placeholder="введите код присланный  вам на почту" type="text" formControlName="guidEmail"
+                 required>
+        </mat-form-field>
+        <div>
+          <button class="btn  btn-gray" mat-button (click)="changeEmail(stepper)">Подтвердить изменения</button>
+
+          <!--<button class="btn  btn-gray" mat-button matStepperPrevious>Назад</button>-->
+        </div>
+      </div>
+    </form>
+  </mat-step>
+
+</mat-horizontal-stepper>

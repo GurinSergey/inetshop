@@ -1,0 +1,34 @@
+<html>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div #slides>
+        <div class="col-12">
+          <div class="container-img">
+            <div class="mySlides slide-fade cursor photo"
+                 *ngFor="let item of items; let first = first"
+                 [ngClass]="{flex:first, open:first}">
+              <img src="{{item.path}}" style="opacity: 0">
+            </div>
+            <div id="photoLens" class="img-zoom-lens"></div>
+            <div id="resultPhotoLens" class="photo"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-10">
+            <app-scroll #scrollPhotos>
+              <div class="photo-list" *ngFor="let item of items; let i = index; let first = first">
+                <img class="demo cursor" src={{item.path}} (click)="showBigSlides(i + 1)" [ngClass]="{active:first}">
+              </div>
+            </app-scroll>
+          </div>
+          <div class="col-2">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

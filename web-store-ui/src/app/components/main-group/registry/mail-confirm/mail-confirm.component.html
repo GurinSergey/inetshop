@@ -1,0 +1,30 @@
+<!--<mat-card class="confirm-card">-->
+  <!--<mat-card-header>-->
+    <!--<p><mat-icon style="color: #00A000">email</mat-icon>Подтверждение почты</p>-->
+  <!--</mat-card-header>-->
+  <!--<mat-card-content>-->
+    <!--<mat-progress-spinner-->
+      <!--class="example-margin"-->
+      <!--color="primary"-->
+      <!--mode="indeterminate">-->
+    <!--</mat-progress-spinner>-->
+    <!--<div *ngIf="confirm" style="color:#00A000"><p><mat-icon>check</mat-icon>{{success}}</p></div>-->
+    <!--<div *ngIf="!confirm" style="color:red"><p><mat-icon>cancel</mat-icon>{{errorText}}</p></div>-->
+  <!--</mat-card-content>-->
+<!--</mat-card>-->
+<div class="panel-wrapper">
+  <div class="panel-wrapper-title">
+    <span><mat-icon style="color: #00A000">email</mat-icon>Подтверждение почты</span>
+  </div>
+  <div class="panel-wrapper-body">
+    <mat-progress-spinner
+      class="margin"
+      color="primary"
+      diameter="30"
+      mode="indeterminate"
+      [hidden]="visible">
+    </mat-progress-spinner>
+    <div *ngIf="confirm" style="color:#00A000"><p><mat-icon>check</mat-icon>{{success}}</p></div>
+    <div *ngIf="!confirm" style="color:red"><p><mat-icon>cancel</mat-icon>{{errorText}}</p></div>
+  </div>
+</div>

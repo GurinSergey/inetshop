@@ -1,0 +1,40 @@
+server:
+  port: 8778
+
+spring:
+  http:
+      multipart:
+        max-file-size: 1024KB
+        max-request-size: 1024KB
+
+  datasource:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://DVaschenko:3306/etc
+      username: INETSHOP
+      password: INETSHOP
+      test-on-borrow: true
+      validation-query: SELECT 1
+  jpa:
+      database-platform: org.hibernate.dialect.MySQLDialect
+      show-sql: true
+      hibernate:
+        generate-ddl: true
+        ddl-auto: update
+        globally_quoted_identifiers: true
+
+logging:
+  file: log/webstore.log
+  level:
+    root: info
+    org.springframework.web: info
+    com.howtodoinjava: info
+    org.hibernate: info
+token:
+  expiration-time-mins: 30000
+
+cors:
+  allowed-credentials: true
+  allowed-origin: -*
+  allowed-headers: -*
+  allowed-methods: -OPTIONS -GET -POST -PUT -DELETE
+

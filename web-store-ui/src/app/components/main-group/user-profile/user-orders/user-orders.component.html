@@ -1,0 +1,108 @@
+<div class="container-fluid">
+  <div class="row" style="height: 5px">
+    <span class="col">
+      <mat-progress-bar *ngIf="isLoadingOrders" [mode]="'indeterminate'"></mat-progress-bar>
+    </span>
+  </div>
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <mat-accordion>
+        <h5 *ngIf="items.length === 0; else ordersBlock" class="text-center">
+          <i class="fa fa-shopping-cart" style="font-size:24px"></i> У Вас еще  нет заказов
+        </h5>
+        <mat-divider></mat-divider>
+        <ng-template #ordersBlock>
+          <h3 style="color: #575757"><i class="fa fa-shopping-cart"></i> Мои заказы</h3>
+          <mat-expansion-panel #matExpansionPanel *ngFor="let item of items"
+                               (opened)="onExpand(matExpansionPanel, item.orderId)"
+                               (closed)="onCollapse(item.orderId)">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                № {{item.orderId}}
+              </mat-panel-title>
+              <mat-panel-description class="col-xl-10 col-lg-10 col-md-10 col-sm-10 desc">
+                <span class="orderDate">{{item.orderDate}}</span>
+                <div class="orderPhotos">
+                  <img [ngClass]="{unVisible:item.flag}" *ngFor="let url of item.photoUrls.slice(0, 5)"
+                       src="{{server_url + url}}" class="img-fluid">
+
+                  <div class="loading" id="loading{{item.orderId}}">
+                    <i class="fa fa-spinner fa-spin fa-5x"></i>
+                  </div>
+                </div>
+                <span class="orderState state">{{item.orderState}}</span>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <ul class="navbar-nav" [hidden]="isLoadingResults">
+              <li class="nav-item">
+                <div *ngIf="itemHistStates.length != 0">
+                  <div class="hst">
+                    <a data-toggle="dropdown">История</a>
+                    <div class="dropdown-menu dropdown-menu-right hist-box">
+                      <span class="hst-title"> История статусов заказа № {{item.orderId}} </span>
+                      <hr>
+                      <div *ngFor="let itemHistState of itemHistStates">
+                        <table class="hst-state">
+                          <tr class="hst-state-info">
+                            <td class="hst-state-date">{{itemHistState.stateDate}}</td>
+                            <td class="hst-state-state state">{{itemHistState.orderHistoryState.stateName}}</td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngFor="let itemDetail of itemDetails">
+                  <hr class="delimiter">
+                  <table class="details">
+                    <tr>
+                      <td class="img-block">
+                        <a [routerLink]="['/main-page/product', itemDetail.product.latIdent]" target="_blank">
+                          <img src="{{server_url + itemDetail.product.photos[0].path}}" class="img-fluid">
+                        </a>
+                      </td>
+                      <td class="info-block">
+                        <table>
+                          <tr>
+                            <td colspan="3">
+                              <a [routerLink]="['/main-page/product', itemDetail.product.latIdent]" target="_blank">
+                                {{itemDetail.product.title}}
+                              </a>
+                            </td>
+                          </tr>
+                          <tr class="details-info">
+                            <td>
+                              {{itemDetail.price | currencyLocal}}
+                            </td>
+                            <td>
+                              {{itemDetail.quantity}} шт.
+                            </td>
+                            <td>
+                              Всего:
+                              <span class="total"> {{itemDetail.totalPrice | currencyLocal}} </span>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <hr>
+                <div class="summary">
+                  Итого к оплате:
+                  <span class="total state"> {{item.sum | currencyLocal}} </span>
+                </div>
+              </li>
+            </ul>
+          </mat-expansion-panel>
+        </ng-template>
+      </mat-accordion>
+    </div>
+  </div>
+  <div [hidden]="count <= limit">
+    <app-pagination [offset]="offset" [limit]="limit" [size]="count"
+                    (changePage)="onChangePage($event)"></app-pagination>
+  </div>
+</div>

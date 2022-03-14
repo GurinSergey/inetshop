@@ -1,0 +1,13 @@
+.contacts-container {
+  position: relative;
+  padding: 15px;
+  font-size: 13px;
+}
+
+.QR {
+  border: 1px solid #D4D0C8;
+  padding: 25px;
+  text-align: center;
+  color: #337ab7;
+  font-size: 12px;
+}

@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-2">
+
+  </div>
+  <div class="col-8" style="padding: 1px">
+    <div class="row">
+      <div class="adds-content">
+        <div id="demo" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ul class="carousel-indicators">
+            <li data-target="#demo" data-slide-to="0" class="active"></li>
+            <li data-target="#demo" data-slide-to="1"></li>
+          </ul>
+
+          <!-- The slideshow -->
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="http://oxydy.com/wp-content/uploads/2018/02/test-img-300x194.png" alt="Los Angeles">
+              <div class="carousel-caption">
+                <h3>Test 1 IMG</h3>
+                <p>LA is always so much fun!</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="http://www.flexibleproduction.com/wp-content/uploads/2017/06/test-intelligenza-sociale.jpg"
+                   alt="Chicago">
+              <div class="carousel-caption">
+                <h3>Test 1 IMG</h3>
+                <p>LA is always so much fun!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <span class="col catalog-header">
+        <h2 class="h2">{{catalog.name}}</h2>
+      </span>
+    </div>
+    <div class="row" style="height: 5px">
+      <span class="col">
+        <mat-progress-bar *ngIf="catalogLoading" [mode]="'indeterminate'"></mat-progress-bar>
+      </span>
+    </div>
+    <div class="catalog-list" [@catalogs]="catalogLoading">
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3" *ngFor="let c of catalog.children">
+          <div class="catalog-item">
+            <a class="p-inner" (click)="navigateToCatalog(c)">
+              <img src="{{c.photo_path}}">
+              <h4 class="catalog-title">{{c.name}}</h4>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-2 another-info">
+  </div>
+</div>
+

@@ -1,0 +1,11 @@
+<div class="f-title" *ngIf="!(title == undefined || title == null)">{{title}}</div>
+<div class="scroll">
+  <a class="slide slide-left" href="javascript:void(0)" (click)="moveLeft($event)" [hidden]="!leftArrowVisible"><i class="fa fa-angle-left fa-3x"></i></a>
+  <a class="slide slide-right" href="javascript:void(0)" (click)="moveRight($event)" [hidden]="!rightArrowVisible"><i class="fa fa-angle-right fa-3x"></i></a>
+
+  <div #scrollMenu (scroll)="scrolling()" class="scrollmenu">
+    <div class="scroll-inner">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

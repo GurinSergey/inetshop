@@ -1,0 +1,83 @@
+<div class="filter-list">
+  <div class="block-clickable btn-group clearfix">
+    <span>
+      <mat-slide-toggle [checked]="openAll" style="padding: 7px;" (change)="openAll = !openAll">
+      <span *ngIf="openAll">Свернуть</span>
+      <span *ngIf="!openAll">Развернуть</span>
+    </mat-slide-toggle>
+    </span>
+    <span>
+      <button mat-raised-button class="mat-elevation-z" style="padding: 1px;"  type="button" (click)="searchByFilter()">
+      <mat-icon>search</mat-icon>Подобрать
+    </button>
+    </span>
+  </div>
+  <div class="spinner" *ngIf="isLoadingFilter; else filterBlock">
+    <mat-progress-spinner [mode]="'indeterminate'" [diameter]="70" [strokeWidth]="5">
+    </mat-progress-spinner>
+  </div>
+  <ng-template #filterBlock>
+    <mat-accordion [multi]="true">
+      <form [formGroup]="priceForm">
+        <mat-expansion-panel [expanded]="openAll" class="clearfix">
+          <mat-expansion-panel-header class="panel-header">
+            <mat-panel-title>
+              <span class="font-weight-bold filter-title">Цена, грн.</span>
+              <i class="fa fa-check" *ngIf="priceForm.controls['minPrice'].value > 0 || priceForm.controls['maxPrice'].value > 0"></i>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <ul class="nav flex-column">
+            <li class="nav-item row">
+              <div class="col-6">
+                <mat-form-field>
+                  <input matInput type="number" formControlName="minPrice" placeholder="от">
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field>
+                  <input matInput type="number" [min]="minPrice" formControlName="maxPrice" placeholder="до">
+                </mat-form-field>
+              </div>
+            </li>
+          </ul>
+        </mat-expansion-panel>
+      </form>
+
+      <mat-expansion-panel *ngFor="let item of filterList" [expanded]="openAll" class="clearfix">
+        <mat-expansion-panel-header class="panel-header">
+          <mat-panel-title>
+            <span class="font-weight-bold filter-title">{{item.name}}</span>
+            <i class="fa fa-check" *ngIf="item.checked"></i>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ul class="nav flex-column">
+          <li class="nav-item"  style="position: relative" *ngFor="let value of item.params | slice:0:item.cntForView">
+            <span style="overflow: hidden">
+              <mat-checkbox [ngClass]="{disabled:value.cntByFilterValue == 0}"
+                            style="width: 80%;"
+                            [id]="value.id"
+                            [value]="value.name"
+                            [(ngModel)]="value.checked"
+                            (change)="checkValueFilter()">
+              {{value.name}}
+            </mat-checkbox>
+            </span>
+            <span class="filter-value-cnt">
+              <mat-spinner *ngIf="value.isCntLoading; else cntByFilterValue" [diameter]="15" [strokeWidth]="2"></mat-spinner>
+              <ng-template #cntByFilterValue>
+                <span *ngIf="item.checked && !value.checked">+</span>
+                <span style="margin-left: 2px">{{value.cntByFilterValue}}</span>
+              </ng-template>
+            </span>
+          </li>
+        </ul>
+        <span *ngIf="item.params.length > item.cntForView"
+              (click)="item.cntForView = item.params.length"
+              class="float-right filter-more" >
+          Отобразить все
+            <mat-icon [inline]="true">expand_more</mat-icon>
+          </span>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </ng-template>
+</div>

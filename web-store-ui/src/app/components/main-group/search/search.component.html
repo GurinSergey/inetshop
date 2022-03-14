@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <div class="row" style="height: 5px">
+    <span class="col">
+      <mat-progress-bar *ngIf="isLoadingResults" [mode]="'indeterminate'"></mat-progress-bar>
+    </span>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <span class="h6" [innerHTML]="search_info"></span>
+    </div>
+    <div class="col-12">
+      <div *ngFor="let item of items">
+        <div class="row">
+          <div class="col">
+            <h2 class="f-title">
+              {{item.templateName}} ({{item.products.length}})
+            </h2>
+            <a class="h6" href="#{{item.templateId}}">Показать все</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col search-body">
+            <app-product-list [items]="item.products"></app-product-list>
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div [hidden]="templates_count <= templates_limit">
+    <app-pagination [offset]="templates_offset" [limit]="templates_limit" [size]="templates_count"
+                    (changePage)="onChangePage($event)"></app-pagination>
+  </div>
+</div>

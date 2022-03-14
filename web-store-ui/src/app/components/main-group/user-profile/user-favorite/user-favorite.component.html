@@ -1,0 +1,10 @@
+<div class="row" style="height: 5px" *ngIf="!favoriteList">
+  <span class="col">
+    <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+  </span>
+</div>
+<div class="row">
+  <div class="col products-body">
+    <app-product-list [items]="favoriteList"></app-product-list>
+  </div>
+</div>

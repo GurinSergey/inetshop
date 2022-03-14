@@ -1,0 +1,120 @@
+<div class="compare-container">
+  <h2 *ngIf="items?.productList.length === 0; else compareBlock" class="text-center">
+    <i class="fa fa-balance-scale"></i> Нет товаров для сравнения
+  </h2>
+
+  <ng-template #compareBlock>
+    <h2 class="f-title">Списки сравнений</h2>
+    <br>
+
+    <div class="comparison c-section" *ngFor="let item of items?.productList">
+      <h3>{{item.value[0].templateName}}</h3>
+      <div class="group col-sm-6 col-md-6 col-lg-6 col-xl-8" style="padding-right:15px;">
+        <div class="row">
+          <div class="col">
+            <div class="container-fluid">
+              <div class="product-list">
+                <div class="row">
+                  <div *ngFor="let p of item.value" class="col-sm-12 col-md-6 col-lg-6 col-xl-3 col-12"
+                       [ngClass]="{colStyleList: list_style}">
+                    <div class="product-item">
+                      <div class="p-inner">
+                        <i class="fa fa-times-circle closeBtn" (click)="deleteItem(item.key, p?.baseInfo.id)"
+                           title="Удалить"></i>
+                        <div class="p-header">
+                          <a [routerLink]="['/main-page/product', p?.baseInfo.latIdent]" target="_blank">
+                            <img class="img-fluid" src={{p?.baseInfo.url_image}}>
+                          </a>
+                        </div>
+                        <div class="p-body">
+                          <a [routerLink]="['/main-page/product', p?.baseInfo.latIdent]" target="_blank">
+                            <h6 class="head">{{p?.baseInfo.title}} {{p?.baseInfo.code}}</h6>
+                          </a>
+                          <div class="p-info">
+                            <div class="prices-info clearfix">
+                              <span class="h6 p-price p-old-price" *ngIf="p?.priceInfo.new_future_price">{{p?.priceInfo.new_future_price | currencyLocal}}</span>
+                              <span forNewPrice class="h6 p-price" [value]="p?.priceInfo.new_future_price">{{p?.priceInfo.current_price | currencyLocal}}</span>
+
+                              <span class="p-price p-sale-price" *ngIf="p?.priceInfo.exists_sale">{{p?.priceInfo.sale_price | currencyLocal | sale}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btn-link-to-compare">
+        <button class="btn btn-standart cmprBtn" (click)="compare(item.key, item.value[0].templateName, item.value.length)">Сравнить эти
+          товары
+        </button>
+      </div>
+    </div>
+    <div id="id01" class="w3-animate-zoom w3-white w3-modal modPos" [ngClass]="{unVisible:!btnVisible}">
+      <div class="w3-container">
+        <i class="fa fa-times w3-padding w3-closeFrm" (click)="changeVisible()" title="Закрыть"></i>
+      </div>
+
+      <div class="spinner" [hidden]="!isLoading">
+        <i class="fa fa-spinner fa-spin fa-5x"></i>
+      </div>
+
+      <div class="w3-row contentPop w3-margin-top" [ngClass]="{loadingFields:isLoading}">
+        <ng-container *ngIf="compareProducts.length > 0">
+          <h3>Сравнение товаров каталога <b>{{compareProducts[0].templateName}}</b></h3>
+        </ng-container>
+
+        <br>
+
+        <table>
+          <ng-container>
+            <tr class="table-header">
+              <th>
+                <mat-slide-toggle
+                  [checked]="false"
+                  (change)="onChange($event)">
+                  {{switchTitle}}
+                </mat-slide-toggle>
+              </th>
+
+              <ng-container *ngFor="let item of compareProducts">
+                <ng-template #productBlock>
+                  <a [routerLink]="['/main-page/product', item.baseInfo.latIdent]" target="_blank">
+                    <img class="img-fluid" src={{item?.baseInfo.url_image}} style="height:80px;">
+                  </a>
+                  <div>
+                    <a [routerLink]="['/main-page/product', item.baseInfo.latIdent]" target="_blank">
+                      <h6>{{item.baseInfo.title}} {{item.baseInfo.code}}</h6>
+                    </a>
+                    <span class="product-price clearfix">{{item?.priceInfo.current_price | currencyLocal}}</span>
+                  </div>
+                </ng-template>
+
+                <td>
+                  <ng-container *ngTemplateOutlet="productBlock"></ng-container>
+                </td>
+              </ng-container>
+            </tr>
+
+            <ng-container *ngFor="let item of this.compareBox?.item">
+              <tr [hidden]="item.allValuesAreTheSame && showOnlyUnique">
+                <th>{{item.fieldName}}</th>
+                <ng-container *ngFor="let value of item.fieldValues">
+                  <td>
+                    {{value}}
+                  </td>
+                </ng-container>
+              </tr>
+            </ng-container>
+          </ng-container>
+
+        </table>
+      </div>
+
+    </div>
+  </ng-template>
+</div>

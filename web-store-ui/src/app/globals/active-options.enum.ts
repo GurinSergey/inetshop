@@ -1,0 +1,7 @@
+export enum ActiveOptions {
+  IN_PROCESS = "IN_PROCESS",
+  READ_ONLY = "READ_ONLY",
+  CHANGE_STATE = "CHANGE_STATE",
+  CHANGE_OPER = "CHANGE_OPER",
+  NONE = "NONE"
+}

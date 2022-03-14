@@ -1,0 +1,21 @@
+.navbar-nav .nav-link {
+  color: #575757;
+  font-size: .9rem;
+}
+
+.navbar-nav .nav-link:hover,
+.active{
+  color: red !important;
+}
+
+.personal-common ul > li i.material-icons{
+  font-size: 1rem;
+}
+
+.personal-common ul .nav-link > *{
+  vertical-align: middle;
+  margin-bottom: 0px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+

@@ -1,0 +1,104 @@
+<div class="row" style="height: 5px">
+  <span class="col">
+    <mat-progress-bar *ngIf="productLoading" [mode]="'indeterminate'"></mat-progress-bar>
+  </span>
+</div>
+<div class="product-list" [@products]="productLoading">
+  <!--<h2 *ngIf="_items.length === 0; else detailsBlock" class="text-center">По Вашему запросу ничего не найдено</h2>-->
+  <!--<ng-template #detailsBlock>-->
+    <div id="tooltipBlockBorder" class="row" style="position: relative" [ngClass]="{loadProcess: productLoading}">
+      <div *ngFor="let p of _items; let i = index;" class="col-sm-12 col-md-6 col-lg-6 col-xl-3"
+           [ngClass]="{colStyleList: list_style}">
+        <div class="product-item" [ngStyle]="{'height.px':itemBlockHeight}">
+          <div class="p-inner">
+            <div class="p-header">
+              <a [routerLink]="['/main-page/product', p?.baseInfo.latIdent]">
+                <img alt="image..." class="img-fluid" src={{p?.baseInfo.url_image}}>
+              </a>
+              <mat-icon class="tooltip-info" tooltip [width]="450" [productId]="p?.baseInfo.id" [data]="p?.baseInfo.description" title="Доп. информация">info</mat-icon>
+            </div>
+            <div class="p-body">
+              <a [routerLink]="['/main-page/product', p?.baseInfo.latIdent]">
+                <h6 class="head">{{p?.baseInfo.title}} {{p?.baseInfo.code}}</h6>
+              </a>
+              <div class="p-info">
+                <div class="prices-info clearfix">
+                  <span class="h6 p-price p-old-price" *ngIf="p?.priceInfo.new_future_price">{{p?.priceInfo.new_future_price | currencyLocal}}</span>
+                  <span forNewPrice class="h6 p-price" [value]="p?.priceInfo.new_future_price">{{p?.priceInfo.current_price | currencyLocal}}</span>
+                  <span class="comment-info clearfix">
+                    <a [routerLink]="['/main-page/product', p?.baseInfo.latIdent]" [queryParams]="{page:2}" *ngIf="p?.commentInfo.totalCount > 0">
+                      <mat-icon>chat_bubble_outline</mat-icon>
+                      {{p?.commentInfo.totalCount | comment}}
+                    </a>
+                  </span>
+                  <span class="p-price p-sale-price" *ngIf="p?.priceInfo.exists_sale">{{p?.priceInfo.sale_price | currencyLocal | sale}}</span>
+                </div>
+                <div class="rating-info clearfix row">
+                  <span class="col">
+                    <rating [current]="p?.ratingInfo.ratingStar" [readonly]="true"></rating>
+                  </span>
+                  <span class="col rating">
+                    <div class="bar-container" *ngIf="(p?.ratingInfo.positiveCommentNotes / p?.ratingInfo.allCommentNotes > 0)">
+                      <div class="bar-green" [style.width.%]="p?.ratingInfo.positiveCommentNotes / p?.ratingInfo.allCommentNotes * 100 || 0"></div>
+                    </div>
+                    <div class="bar-container" *ngIf="(p?.ratingInfo.negativeCommentNotes / p?.ratingInfo.allCommentNotes > 0)">
+                      <div class="bar-red" [style.width.%]="p?.ratingInfo.negativeCommentNotes / p?.ratingInfo.allCommentNotes * 100 || 0"></div>
+                    </div>
+                  </span>
+                </div>
+                <div *ngIf="list_style == true">{{p?.baseInfo.description}}</div>
+              </div>
+            </div>
+            <div class="p-footer">
+              <div *ngIf="list_style">
+                <button mat-raised-button title="Следить за товаром" class="btn-standart">
+                  <mat-icon>visibility</mat-icon>
+                  Следить
+                </button>
+                <button mat-raised-button (click)="addToCompare(p)"  [disabled]="p?.baseInfo.isInCompareBox" title="Сравить этот товар" class="btn-standart">
+                  <i class="fa fa-balance-scale"></i>
+                  <i class="fa fa-check bange-icon" [ngClass]="{unVisible:!p?.baseInfo.isInCompareBox}"></i>
+                  Сравнить
+                </button>
+                <button mat-raised-button (click)="addToBasket(p?.baseInfo)" [hidden]="p?.baseInfo.isInBasketBox" title="Купить" class="btn-standart">
+                  <mat-icon>shopping_cart</mat-icon>
+                  В корзину
+                </button>
+                <button mat-raised-button title="Избранное" class="btn-standart">
+                  <mat-icon>favorite_border</mat-icon>
+                  Избранное
+                </button>
+              </div>
+              <div *ngIf="!list_style">
+                <button mat-icon-button title="Следить за товаром">
+                  <mat-icon>visibility</mat-icon>
+                  <i class="fa fa-check bange-icon" [ngClass]="{unVisible:!p.isInTrackBox}"></i>
+                </button>
+                <button mat-icon-button (click)="addToCompare(p)" [disabled]="p?.baseInfo.isInCompareBox" title="Сравить этот товар">
+                  <i class="fa fa-balance-scale"></i>
+                  <i class="fa fa-check bange-icon" [ngClass]="{unVisible:!p?.baseInfo.isInCompareBox}"></i>
+                </button>
+                <button mat-icon-button (click)="addToBasket(p?.baseInfo)" [hidden]="p?.baseInfo.isInBasketBox" title="Купить">
+                  <mat-icon>shopping_cart</mat-icon>
+                </button>
+                <button mat-icon-button data-toggle="modal" data-target="#basketModals" (click)="basketInit()" title="Товар в корзине" [hidden]="!p?.baseInfo.isInBasketBox">
+                  <i class="fa fa-check bange-icon"></i>
+                  <mat-icon>add_shopping_cart</mat-icon>
+                </button>
+                <button class="favorite" mat-icon-button title="Избранное" (click)="favorite(p)">
+                  <input id="toggle-heart-input{{i}}" type="checkbox" [checked]="p?.baseInfo.isFavorite"/>
+                  <label id="toggle-heart-label{{i}}">♡</label>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  <!--</ng-template>-->
+</div>
+<div [hidden]="count <= limit">
+  <app-pagination [offset]="offset" [limit]="limit" [size]="count" (changePage)="onChangePage($event)"></app-pagination>
+</div>
+

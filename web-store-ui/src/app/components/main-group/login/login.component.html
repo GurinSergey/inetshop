@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col">
+    <div class="sidebar-menu clearfix">
+      <div class="spinner" *ngIf="deactivate">
+        <i class="fa fa-spinner fa-spin fa-5x"></i>
+      </div>
+      <form [formGroup]="myForm" novalidate (ngSubmit)="submit()" [ngClass]="{disabled: deactivate}">
+        <div class="f-title">
+          <span class="title">Авторизация</span>
+        </div>
+        <div id="form-login-username" class="form-group">
+          <div *ngIf="myForm.controls['userName'].invalid && submitAttempt" class="error">
+            <span>{{userNameError}}</span>
+          </div>
+          <div class="input-group">
+						<span class="input-group-addon">
+						  <i class="fa fa-user tip" title="Username"></i>
+						</span>
+            <input id="modlgn-username" type="email" name="name" formControlName="userName" class="input form-control" tabindex="0" size="18" placeholder="Логин">
+          </div>
+        </div>
+        <div id="form-login-password" class="form-group">
+          <div *ngIf="myForm.controls['userPass'].invalid && submitAttempt" class="error">
+            <span>{{userPassError}}</span>
+          </div>
+          <div class="input-group">
+						<span class="input-group-addon">
+						  <i class="fa fa-lock tip" title="Password"></i>
+						</span>
+            <input id="modlgn-passwd" type="password" name="password" formControlName="userPass" class="input form-control" tabindex="0" size="18" placeholder="Пароль">
+          </div>
+        </div>
+        <div class="form-group">
+          <div *ngIf="!authorized" class="error">
+            <span>{{userServerError}}</span>
+          </div>
+          <span class="block-clickable">
+            <button id="btn-login" type="submit" class="btn btn-standart btn-block float-right" [disabled]="myForm.controls['userName'].value === '' || myForm.controls['userPass'].value === ''">Войти</button>
+          </span>
+        </div>
+        <ul class="nav float-right">
+          <li class="nav-item">
+            <a class="nav-link" (click)="getRegistry()">Создать аккаунт</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['forgotpass']">Забыли пароль?</a>
+          </li>
+        </ul>
+      </form>
+    </div>
+  </div>
+</div>

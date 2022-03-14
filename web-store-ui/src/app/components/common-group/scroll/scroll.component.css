@@ -1,0 +1,81 @@
+.scroll {
+  position: relative;
+  height: auto;
+  margin-top: 0.8rem;
+}
+
+.scrollmenu {
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+
+.scroll-inner {
+  display: inline-flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  margin-bottom: 10px;
+}
+
+.scrollmenu::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+.scrollmenu::-webkit-scrollbar {
+  height: 5px;
+}
+
+.scrollmenu::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #555;
+  border: 3px solid transparent;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  width: 40px;
+  height: 95%;
+  z-index: 40;
+  bottom: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.slide:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.slide-right i {
+  margin-left: 20px;
+}
+
+.slide-left i {
+  margin-right: 20px;
+}
+
+.slide-right {
+  right: 0;
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0), rgba(255, 255, 255, .8) 20%, #fff 40%, #fff);
+  background: -ms-linear-gradient(left, rgba(255, 255, 255, 0), rgba(255, 255, 255, .8) 20%, #fff 40%, #fff);
+  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0), rgba(255, 255, 255, .8) 20%, #fff 40%, #fff);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, .8) 20%, #fff 40%, #fff);
+}
+
+.slide-left {
+  left: 0;
+  background: -webkit-linear-gradient(right, rgba(255, 255, 255, 0), rgba(255, 255, 255, .2) 20%, #fff 40%, #fff);
+  background: -ms-linear-gradient(right, rgba(255, 255, 255, 0), rgba(255, 255, 255, .2) 20%, #fff 40%, #fff);
+  background: -moz-linear-gradient(right, rgba(255, 255, 255, 0), rgba(255, 255, 255, .2) 20%, #fff 40%, #fff);
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, .2) 20%, #fff 40%, #fff);
+}
+
+

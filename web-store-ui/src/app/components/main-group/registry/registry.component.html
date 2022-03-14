@@ -1,0 +1,98 @@
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <div class="sidebar-menu">
+      <div class="spinner" *ngIf="deactivate">
+        <i class="fa fa-spinner fa-spin fa-5x"></i>
+      </div>
+      <form [formGroup]="myForm" novalidate (ngSubmit)="submit()" [ngClass]="{disabled: deactivate}">
+        <div class="f-title">
+          <span class="title">Регистрация</span>
+        </div>
+        <div id="form-register-useremail" class="form-group">
+          <div *ngIf="myForm.controls['userEmail'].invalid && myForm.controls['userEmail'].touched" class="error">
+            <span>{{userEmailError}}</span>
+          </div>
+          <div *ngIf="userEmailServerError" class="error">
+            <span>{{userEmailServerError}}</span>
+          </div>
+          <div class="input-group">
+						<span class="input-group-addon">
+						  <i class="fa fa-envelope"></i>
+						</span>
+            <input  type="text" name="email" formControlName="userEmail" class="input form-control" tabindex="0"
+                   placeholder="Почтовый адрес">
+          </div>
+        </div>
+        <div  class="form-group">
+          <div *ngIf="myForm.controls['userName'].invalid && myForm.controls['userName'].touched" class="error">
+            <span>{{userNameError}}</span>
+          </div>
+          <div *ngIf="userNameServerError" class="error">
+            <span>{{userNameServerError}}</span>
+          </div>
+          <div class="input-group">
+						<span class="input-group-addon">
+						  <i class="fa fa-user"></i>
+						</span>
+            <input type="text" name="userName" formControlName="userName" class="input form-control" tabindex="0"
+                   placeholder="Имя пользователя">
+          </div>
+        </div>
+        <div class="form-group">
+          <div *ngIf="myForm.controls['userPass'].invalid && myForm.controls['userPass'].touched" class="error">
+            <span>{{userPassErrorLength}}</span>
+          </div>
+          <div *ngIf="userPassErrorServerLength" class="error">
+            <span>{{userPassErrorServerLength}}</span>
+          </div>
+          <div class="input-group">
+						<span class="input-group-addon">
+						  <i class="fa fa-lock"></i>
+						</span>
+            <input  type="password" name="userPass" formControlName="userPass" class="input form-control" tabindex="0"
+                   placeholder="Пароль">
+          </div>
+        </div>
+        <div id="form-register-userpassConf" class="form-group">
+          <div *ngIf="myForm.controls['userPassConf'].invalid && myForm.controls['userPassConf'].touched" class="error">
+            <span>{{userPassErrorLength}}</span>
+          </div>
+          <div *ngIf="userPassErrorServerLength" class="error">
+            <span>{{userPassErrorServerLength}}</span>
+          </div>
+          <div *ngIf="myForm.hasError('mismatchedPasswords') && myForm.controls['userPassConf'].valid && myForm.controls['userPassConf'].touched"
+               class="error">
+            <span>{{userErrorMatchingPass}}</span>
+          </div>
+          <div *ngIf="userErrorServerMatchingPass" class="error">
+            <span>{{userErrorServerMatchingPass}}</span>
+          </div>
+          <div class="input-group">
+						<span class="input-group-addon">
+						    <i class="fa fa-lock"></i>
+						  </span>
+            <input type="password" name="userPassConf" formControlName="userPassConf" class="input form-control"
+                   tabindex="0" placeholder="Повторите пароль">
+          </div>
+        </div>
+        <div class="form-group">
+          <span class="block-clickable">
+            <button id="btn-register" type="submit" class="btn btn-standart float-right" [disabled]="myForm.invalid">Создать аккаунт</button>
+          </span>
+        </div>
+
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Вход</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/">На главную</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="goBack()">goback</a>
+          </li>
+        </ul>
+      </form>
+    </div>
+  </div>
+</div>

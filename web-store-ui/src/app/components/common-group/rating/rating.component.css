@@ -1,0 +1,17 @@
+span i{
+  color: gainsboro;
+  font-size: 1em;
+  vertical-align: text-top;
+}
+
+span > span{
+  cursor: pointer;
+}
+
+.readonly{
+  cursor: default !important;
+}
+
+.full{
+  color: #ffc107 !important;
+}

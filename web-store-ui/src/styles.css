@@ -1,0 +1,409 @@
+/* Add application styles & imports to this file! */
+::selection {
+  background: #db202f;
+  color: #ffffff;
+}
+
+:focus {
+  outline: none !important;
+}
+
+/*h1, h2, h3, h4, h5, h6 {*/
+  /*font-family:  Arial, Helvetica, FreeSans, "Liberation Sans", "Nimbus Sans L", sans-serif;*/
+  /*letter-spacing: revert;*/
+/*}*/
+
+/**************************/
+
+body, html {
+  font-family: Arial, Helvetica, FreeSans, "Liberation Sans", "Nimbus Sans L", sans-serif;
+}
+
+html {
+  font-size: 100.01%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%
+}
+
+body {
+  font-size: .8125em;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  letter-spacing: -.015em
+}
+
+h1, h2, h3 {
+  line-height: 1em
+}
+
+h1 {
+  font-size: 3.07692em;
+  font-weight: 400;
+  line-height: 1.2em;
+  margin-bottom: .325em;
+  letter-spacing: -.025em
+}
+
+h2 {
+  font-size: 1.84615em;
+  font-weight: 400;
+  line-height: 1.29167em;
+  margin-bottom: .58333em
+}
+
+h3 {
+  font-size: 1.46154em;
+  font-weight: 400;
+  line-height: 1.15789em;
+  margin-bottom: .52632em
+}
+
+h4 {
+  font-size: 1.155em;
+  margin-bottom: .5em
+}
+
+h5 {
+  font-size: 1em;
+  font-weight: 700;
+  margin-bottom: .4em
+}
+
+h6 {
+  font-size: .923em
+}
+
+ol, p{
+  line-height: 1em
+}
+
+p {
+  font-size: 1.154em
+}
+
+
+
+/***********************************************************************/
+
+
+.btn:focus {
+  box-shadow: none !important;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+:disabled{
+  pointer-events:none;
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+/*Стилизация елементов ввода*/
+.input-group {
+  border: 1px solid #ced4da;
+  margin-bottom: 20px;
+}
+
+.input-group-addon {
+  padding: 10px 20px;
+  font-size: 14px;
+  line-height: 1;
+  color: #575757;
+  background: none;
+  border-right: 1px solid #ced4da;
+}
+
+input[type] {
+  border-radius: 0px;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  margin-right: 10px;
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  transform: translate(0%, -50%);
+  border: 1px solid red;
+}
+
+.checkbox label,
+.radio label {
+  color: #575757;
+  font-size: 12px;
+  cursor: pointer;
+  position: relative;
+  padding-left: 25px;
+}
+
+/*Стилизация кнопки*/
+.block-clickable {
+  height: 40px;
+  width: 100%;
+  display: inline-block;
+}
+
+.btn-standart {
+  color: #fff !important;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  border-radius: 2px;
+  background: #4267b2;
+  background: -webkit-linear-gradient(left top, left bottom, from(#3a7eb5), to(#4267b2));
+  background: -moz-linear-gradient(top, #3a7eb5, #4267b2);
+  border-bottom: 3px solid #3a7eb5;
+}
+
+.btn-icon{
+  margin: 2px!important;
+}
+
+.btn-standart-warning {
+  background: #ffc107;
+  border-bottom: 3px solid #e0a800 !important;
+}
+
+.btn-standart-success {
+  background: #28a745;
+  border-bottom: 3px solid #218838 !important;
+}
+
+.btn-standart-warning:active {
+  color: #fff2cc;
+  background-color: #e0a800;
+}
+
+.btn-standart-success:active {
+  color: #d6f5dd;
+  background-color: #218838;
+}
+
+.btn-gray {
+  color: #4267b2;
+  background: #f1f1f1;
+  /*background: linear-gradient(top, #fff, #f1f1f1);*/
+  background: -o-linear-gradient(top, #fff, #f1f1f1);
+  background: -ms-linear-gradient(top, #fff, #f1f1f1);
+  background: -moz-linear-gradient(top, #fff, #f1f1f1);
+  background: -webkit-linear-gradient(top, #fff, #f1f1f1);
+  border: 1px solid #ececec;
+  border-bottom: 0;
+  box-shadow: 3px 3px 7px 0 rgba(200, 200, 200, .5), inset 0 -3px 0 0 #c1c1c1;
+}
+
+.btn-gray:active,
+.btnActive {
+  color: #b2b1b1;
+  background: #fff;
+  border: 1px solid #dddde0;
+  box-shadow: none;
+}
+
+/*Стилизация формы*/
+.sidebar-menu,
+.nav-menu {
+  padding: 0px 20px;
+  background: #e8e8e8;
+  position: relative;
+  border-radius: 0px;
+  margin-bottom: 5px;
+}
+
+.spinner > .fa {
+  z-index: 10;
+  position: absolute;
+  top: 40%;
+  left: 45%;
+  transform: translate(-40%, -45%);
+}
+
+/*Стилизация блока ошибок*/
+.error {
+  position: relative;
+}
+
+.error span {
+  font-size: 14px;
+  position: absolute;
+  top: -20px;
+  color: #ef6d6d;
+  text-transform: none;
+  right: 0px;
+}
+
+/*Заголовки*/
+.f-title {
+  color: #575757;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  position: relative;
+  display: inline-block;
+  padding: 1.4em;
+}
+
+.f-title:after {
+  height: 2px;
+  display: block;
+  background: #808080;
+  border-right: 1px white;
+  content: '';
+}
+
+.unVisible {
+  display: none;
+}
+
+.rag-red {
+  background-color: lightcoral;
+}
+
+.rag-green {
+  background-color: lightgreen;
+}
+
+.rag-amber {
+  background-color: lightsalmon;
+}
+
+.rag-red-outer .rag-element {
+  background-color: lightcoral;
+}
+
+.rag-green-outer .rag-element {
+  background-color: lightgreen;
+}
+
+.rag-amber-outer .rag-element {
+  background-color: lightsalmon;
+}
+
+.ag-font-style {
+  user-select: initial !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+.panel-wrapper {
+  border: 1px solid rgba(0, 0, 0, .03);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, .24), 0 0 2px rgba(0, 0, 0, .12);
+  margin-bottom: 15px;
+  margin-right: 2px;
+}
+
+.panel-wrapper-title {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  justify-content: left;
+  padding: 8px 20px;
+  color: rgba(0, 0, 0, .54);
+  background: rgba(0, 0, 0, .03);
+}
+
+.panel-wrapper-body {
+  padding: 15px;
+}
+
+.rating {
+  width: 100%;
+}
+
+.rating-info{
+  align-items: center;
+}
+
+.rating-info > *:first-child{
+  padding-right: 0px;
+}
+
+.rating-info > *:last-child{
+  padding-left: 0px;
+}
+
+.rating-info rating{
+  font-size: 1.1rem;
+}
+
+.bar-container{
+  background-color: #f1f1f1;
+  text-align: center;
+}
+
+.bar-container:not(:last-child){
+  margin-bottom: 4px;
+}
+
+.bar-green{
+  height: 8px;
+  background-color: #3ec14385;
+}
+
+.bar-red {
+  height: 8px;
+  background-color: #bd3026ba;
+}
+
+.p-price{
+  padding: .3rem .4rem;
+  border-radius: 2px;
+  float: left;
+  clear: left;
+  margin-right: 10px;
+}
+
+.p-old-price{
+  position: relative;
+  background: #ebf0ff;
+  font-size: .9rem;
+  margin-bottom: 0.2rem;
+}
+
+.p-old-price:after{
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  border-top: 2px solid rgba(255, 0, 0, 0.62);
+  height: calc(50% - 1px);
+  width: 90%;
+  transform: rotateZ(-4deg);
+}
+
+.p-sale-price{
+  color: #FF6968;
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.btnOpen{
+  border-color: #4267b2 !important;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+@media screen and (min-width: 1750px) {
+  .products-body .col-xl-3,
+  .catalog-list .col-xl-3{
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+  .search-body .col-xl-3{
+    flex: 0 0 15%;
+    max-width: 15%;
+  }
+}

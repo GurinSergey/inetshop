@@ -1,0 +1,5 @@
+<button (click)="reloadData()">Show Product Groups</button>
+<div *ngFor="let group of productGroupList">
+  <label>id: {{group.id}}</label>
+  <label>title: {{group.title}}</label>
+</div>

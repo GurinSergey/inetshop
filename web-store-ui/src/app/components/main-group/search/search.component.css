@@ -1,0 +1,13 @@
+a.h6{
+  font-weight: bold;
+  color: #0056b3;
+  opacity: .7;
+}
+
+a:hover{
+  opacity: 1;
+}
+
+span.h6{
+  color: #343a40;
+}

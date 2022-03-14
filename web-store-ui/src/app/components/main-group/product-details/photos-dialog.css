@@ -1,0 +1,33 @@
+.container-img{
+  position: relative;
+  overflow: hidden;
+}
+
+.mySlides{
+  height: 70em !important;
+  width: 90em;
+}
+
+.mySlides img, .photo{
+  width: 720px;
+  height: 660px;
+  position: relative;
+}
+
+.img-zoom-lens{
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  top: 0;
+  left: 0;
+  z-index: 11;
+  cursor: move;
+  /*cursor: url(http://www.jmkxyy.com/lens-icon/lens-icon-11.jpg), zoom-in;*/
+}
+
+#resultPhotoLens{
+  position: absolute;
+  top:0;
+  left: 0;
+  z-index: 10;
+}

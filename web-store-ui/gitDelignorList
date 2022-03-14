@@ -1,0 +1,26 @@
+ALisimenko@ALisimenko MINGW64 /d/inetshop (master)
+$ git rm --cached `git ls-files -i --exclude-from=.gitignore`
+
+ALisimenko@ALisimenko MINGW64 /d/inetshop (master)
+$ git commit -m'removed gitignored files'
+
+ALisimenko@ALisimenko MINGW64 /d/inetshop (master)
+$ git push origin master
+
+Counting objects: 6, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (6/6), 513 bytes | 0 bytes/s, done.
+Total 6 (delta 2), reused 0 (delta 0)
+To https://TOLCOM@bitbucket.org/TOLCOM/inetshop.git
+   bcac9c8..b744018  master -> master
+
+ALisimenko@ALisimenko MINGW64 /d/inetshop (master)
+$
+
+
+
+
+
+
+

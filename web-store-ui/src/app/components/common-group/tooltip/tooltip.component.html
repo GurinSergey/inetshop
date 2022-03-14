@@ -1,0 +1,58 @@
+<div class="tooltip-info" [ngStyle]="{'top.px':top, 'left.px':left}" [ngClass]="{show:!loading}">
+  <span class="marker" [ngStyle]="{'right.px':right_marker}"></span>
+  <div class="row">
+    <div class="col">
+      <div class="content" [ngStyle]="{'width.px':width}">
+        <mat-spinner *ngIf="loading; else bodyTooltip" class="spinner" [diameter]="45" [strokeWidth]="5"></mat-spinner>
+        <ng-template #bodyTooltip>
+          <div class="row header clearfix">
+            <div class="col">
+              <mat-icon class="cancel" (click)="destroy()">cancel</mat-icon>
+            </div>
+          </div>
+          <div class="row body">
+            <div class="col-4 img" *ngIf="photoPath">
+              <img src="{{photoPath}}"/>
+            </div>
+            <div class="col-8 details">
+              <h2>Характеристики:</h2>
+              <table class="table">
+                <tbody>
+                <tr *ngFor="let field of fields?.list | slice:0:5">
+                  <td class="font-weight-bold">{{field.name}}</td>
+                  <td>{{field.value}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row" *ngIf="info">
+            <span class="col">{{info}}</span>
+          </div>
+          <div class="row" *ngIf="details">
+            <div class="col">
+              <table class="table">
+                <tbody>
+                <tr *ngFor="let detail of details | slice:0:5">
+                  <td class="font-weight-bold">{{detail.name}}</td>
+                  <td>{{detail.value}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="actions">
+                <div class="more">
+                  <a [routerLink]="['/main-page/product', latIdent]" target="_blank">Больше...</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+</div>

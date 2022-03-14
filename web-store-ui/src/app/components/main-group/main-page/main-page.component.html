@@ -1,0 +1,264 @@
+<div class="container-fluid container-hd">
+  <div class="modal hide" id="basketModals">
+    <app-basket></app-basket>
+  </div>
+  <div class="header-content">
+    <nav class="nav-top navbar navbar-expand-sm bg-dark navbar-dark">
+      <span [routerLink]="['/']" class="brand">Tolcom forever</span>
+      <ul class="navbar-nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['contacts']">Контакты</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Поддержка</a>
+        </li>
+        <li class="nav-item dropdown">
+          <div *ngIf="authentication.authenticated">
+            <a class="nav-link" (click)="openUserMenu()" data-toggle="dropdown">
+              <div class="myBar" [ngClass]="{open:menuOpen}">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+              </div>
+            </a>
+            <div id="userMenu" #userMenu class="dropdown-menu dropdown-menu-right">
+              <h5 *ngIf="authentication.authenticated" class="dropdown-header">
+                {{authentication.getProfile.personName}}</h5>
+              <ul class="navbar-nav navbar-light flex-column">
+                <li class="nav-item">
+                  <a class="nav-link" [routerLink]="['userprofile']"><i class="fa fa-user"></i> Личный кабинет</a>
+                </li>
+                <div class="dropdown-divider"></div>
+                <li class="nav-item">
+                  <a class="nav-link" (click)="logout()"><i class="fa fa-sign-out"></i> Выход</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div *ngIf="!authentication.authenticated">
+            <a class="nav-link" href="#" data-toggle="dropdown" (click)="initMenu()">Вход</a>
+            <div id="loginMenu" class="dropdown-menu dropdown-menu-right">
+              <app-login></app-login>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <nav class="navbar navbar-expand-sm nav-menu">
+      <div class="catalog-block dropdown">
+        <div class="catalog-title">
+          <i class="material-icons">menu</i>
+          <span>Каталог товаров</span>
+          <i class="material-icons more">expand_more</i>
+          <i class="material-icons less">expand_less</i>
+        </div>
+        <div class="dropdown-menu">
+          <div class="menu-header">
+            <ul class="nav flex-column">
+              <li class="dropdown dropright nav-item" *ngFor="let c of catalog | async; let idx = index">
+                <a class="nav-link" [routerLink]="['/main-page/catalog', c.id]">
+                  <span>{{c.name}}</span>
+                  <i *ngIf="c.children.length > 0" class="material-icons">chevron_right</i>
+                </a>
+                <div *ngIf="c.children.length > 0" class="dropdown-menu">
+                  <div id="tab{{idx}}" class="catalog-list row">
+                    <div class="col-3" *ngFor="let sub_c of c.children">
+                      <div class="catalog-item">
+                        <a class="p-inner" [routerLink]="['/main-page/catalog', sub_c.id]">
+                          <img src="{{sub_c.photo_path}}">
+                          <div class="title">{{sub_c.name}}</div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="search-block">
+        <form class="search" #search>
+          <div class="btn-group">
+            <input
+              type="text"
+              placeholder="Поиск.."
+              spellcheck="false"
+              matInput
+              #input
+              (keyup.enter)="findData()"
+              [formControl]="searchField"
+              [matAutocomplete]="searchProducts">
+            <mat-autocomplete
+              #searchProducts="matAutocomplete"
+              (optionSelected)="selected($event)">
+              <mat-table [dataSource]="dataSource" class="product-mat-table">
+                <ng-container matColumnDef="productImage">
+                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                  <mat-cell *matCellDef="let productList">
+                    <img style="border: 0; width: 30px; height: 30px;" src="{{productList.getSinglePhoto()}}">
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="productCode">
+                  <mat-header-cell *matHeaderCellDef>Код</mat-header-cell>
+                  <mat-cell *matCellDef="let productList">
+                    {{productList.code}}
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="productTitle">
+                  <mat-header-cell *matHeaderCellDef>Наименование</mat-header-cell>
+                  <mat-cell *matCellDef="let productList">
+                    {{productList.title}}
+                  </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-option *matRowDef="let productList; columns: displayedColumns" [value]="productList">
+                  <mat-row></mat-row>
+                </mat-option>
+              </mat-table>
+              <mat-paginator [hidden]="!isShowPaginator"
+                             [pageSize]="searchPageSize"
+                             [hidePageSize]="true"
+                             [showFirstLastButtons]="true">
+              </mat-paginator>
+            </mat-autocomplete>
+
+            <button mat-raised-button type="submit" (click)="findData()">
+              <i class="material-icons" *ngIf="!isLoadingResults">search</i>
+              <mat-spinner class="search-spinner" *ngIf="isLoadingResults" [diameter]="25"
+                           [strokeWidth]="5"></mat-spinner>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="action-block">
+        <ul class="navbar-nav action-menu">
+          <li class="nav-item">
+            <a class="nav-link">
+              <i class="material-icons" style="font-size:28px" (click)="openDialogFavorite()"
+                 matBadge="{{favoriteCnt}}"
+                 matBadgeColor="warn"
+                 matBadgeSize="small"
+                 [matBadgeHidden]="favoriteCnt < 1">favorite_border</i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['compare']">
+              <i class="fa fa-balance-scale" style="font-size:24px; padding-top:2px;"
+                 matBadge="{{compareCnt}}"
+                 matBadgeColor="warn"
+                 matBadgeSize="small"
+                 [matBadgeHidden]="compareCnt < 1"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <form action="/basket">
+              <a class="nav-link" href="#" data-toggle="modal" data-target="#basketModals" (click)="initBasket()">
+                <i class="material-icons" style="font-size:28px" [matBadgeHidden]="basketCnt < 1"
+                   matBadge="{{basketCnt}}"
+                   matBadgeSize="small" matBadgeColor="warn">shopping_cart</i>
+              </a>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div class="body-content">
+    <router-outlet name="popup"></router-outlet>
+    <div class="overlay" [hidden]="!overlay"></div>
+    <router-outlet></router-outlet>
+  </div>
+
+  <div class="footer-content bg-dark navbar-dark">
+    <div class="footer">
+      <div class="container">
+        <div class="wrap-footer">
+          <div class="row">
+            <div class=" col-lg-3 col-md-3 col-sm-6 col-xs-12  col">
+              <div class="f-title">
+                <span>Компания</span>
+              </div>
+              <div class="f-contetnt">
+                <nav class="nav navbar">
+                  <ul class="navbar-nav">
+                    <li class="nav-item">
+                      <a class="nav-link" [routerLink]="['contacts']">Связаться с
+                        нами</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Статус заказа</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Доставка и оплата</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <div class=" col-lg-3 col-md-3 col-sm-6 col-xs-12  col">
+              <div class="f-title">
+                <span>Мы в соцсетях</span>
+              </div>
+              <div class="f-content">
+                <nav class="nav navbar">
+                  <ul class="navbar-nav">
+                    <li class="nav-item">
+                      <a class="nav-link" href="https://www.facebook.com/groups/182452572164392" target="_blank"
+                         rel="noopener noreferrer">Facebook</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Вконтакте</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#"></a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <div class=" col-lg-3 col-md-3 col-sm-6 col-xs-12  col">
+              <div class="f-title">
+                <span>Раскажите о нас</span>
+              </div>
+              <div class="f-content">
+                <nav class="nav navbar">
+                  <ul class="navbar-nav">
+                    <li class="nav-item">
+                      <iframe
+                        src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Flocalhost%3A8065%2Fmain-page&layout=button&size=small&mobile_iframe=true&width=94&height=20&appId"
+                        width="94" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                        allowTransparency="true"></iframe>
+                    </li>
+                  </ul>
+                </nav>
+
+              </div>
+            </div>
+            <div class=" col-lg-3 col-md-3 col-sm-6 col-xs-12  col">
+              <div class="f-title">
+                <span>График работы</span>
+              </div>
+              <div class="f-content">
+                <div class="row">
+                  <span>Понедельник - Пятница: 09:00 - 20:00</span>
+                </div>
+                <div class="row">
+                  <span>Суббота - Воскресенье: выходной</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
